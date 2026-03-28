@@ -1,12 +1,51 @@
 {
   "name": "expense-splitter",
-  "module": "index.ts",
-  "type": "module",
+  "version": "1.0.0",
+  "description": "NestJS-inspired expense splitter API with Express, Prisma, and PostgreSQL",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:studio": "prisma studio",
+    "db:migrate:deploy": "prisma migrate deploy"
+  },
+  "keywords": [
+    "expense",
+    "splitter",
+    "api",
+    "express",
+    "prisma"
+  ],
+  "author": "Atharv Dange",
+  "license": "MIT",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bcryptjs": "^3.0.0",
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^25.5.0",
+    "prisma": "^7.6.0",
+    "tsx": "^4.21.0"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^6.0.2"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.59.1",
+    "@prisma/client": "6",
+    "arktype": "^2.2.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.10.1"
   }
 }
