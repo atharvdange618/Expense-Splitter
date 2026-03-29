@@ -159,30 +159,13 @@ curl http://localhost:3000/api/groups/GROUP_ID/balances \
 
 ---
 
-## Future Enhancements
-
-- **Recurring Expenses**: Auto-create monthly bills
-- **Multi-Currency**: Support for different currencies with exchange rates
-- **Receipt Upload**: Image storage with S3/Cloudinary
-- **Split Simplification**: Optimize payments (e.g., if A→B $50 and B→A $30, simplify to A→B $20)
-- **Group Invites**: Email invitations with signup flow
-- **Expense Categories**: Tag expenses (Food, Transport, Entertainment)
-- **Export Reports**: PDF/CSV export of group expenses
-- **WebSocket Notifications**: Real-time updates when expenses are added/settled
-
----
-
-## Author
-
-[Atharv Dange](https://x.com/atharvdangedev)
-
-Built with ☕(Ice Tea) and TypeScript
-
 ## Testing
 
 All 19 endpoints have been manually tested. See [SETUP.md](docs/SETUP.md) for test commands and examples.
 
-## Future Enhancements (if i wanted to build this out further, because this was supposed to be a test project for ArkType but i got carried away building a full API instead)
+## Future Enhancements
+
+(if i wanted to build this out further, because this was supposed to be a test project for ArkType but i got carried away building a full API instead)
 
 - **Recurring Expenses**: Auto-create monthly bills
 - **Multi-Currency**: Support for different currencies with exchange rates
@@ -195,6 +178,12 @@ All 19 endpoints have been manually tested. See [SETUP.md](docs/SETUP.md) for te
 ## Contributing
 
 Contributions are welcome! Please read the architecture docs first to understand design decisions.
+
+## Author
+
+[Atharv Dange](https://x.com/atharvdangedev)
+
+Built with ☕(Ice Tea) and TypeScript
 
 ---
 
