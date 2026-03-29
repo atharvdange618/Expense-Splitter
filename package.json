@@ -4,14 +4,14 @@
   "description": "NestJS-inspired expense splitter API with Express, Prisma, and PostgreSQL",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
+    "dev": "dotenvx run -- tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
-    "db:migrate": "prisma migrate dev",
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
-    "db:studio": "prisma studio",
-    "db:migrate:deploy": "prisma migrate deploy"
+    "start": "dotenvx run -- node dist/server.js",
+    "db:migrate": "dotenvx run -- prisma migrate dev",
+    "db:generate": "dotenvx run -- prisma generate",
+    "db:push": "dotenvx run -- prisma db push",
+    "db:studio": "dotenvx run -- prisma studio",
+    "db:migrate:deploy": "dotenvx run -- prisma migrate deploy"
   },
   "keywords": [
     "expense",
@@ -31,7 +31,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/morgan": "^1.9.10",
     "@types/node": "^25.5.0",
-    "prisma": "^7.6.0",
+    "prisma": "6",
     "tsx": "^4.21.0"
   },
   "peerDependencies": {
