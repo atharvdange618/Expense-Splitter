@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
+import { errorMiddleware } from "./shared/middleware/error.middleware";
 
 const app = express();
 
@@ -25,5 +26,8 @@ app.use((_, res) => {
     message: "Ye route exist nhi karta bhai, path acche se check karo"
   })
 })
+
+// global error handler
+app.use(errorMiddleware)
 
 export default app;
