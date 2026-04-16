@@ -7,7 +7,7 @@ export function validateEnv(): void {
     console.error(
       `Missing required environment variables:\n  ${missing.join("\n  ")}`,
     );
-    console.error("  Copy .env.example to .env and fill in the values.");
+    console.error("Copy .env.example to .env and fill in the values.");
     process.exit(1);
   }
 }

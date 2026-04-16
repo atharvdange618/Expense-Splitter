@@ -1,32 +1,32 @@
-import app from './app'
-import { prisma } from "./config/prisma"
-import { validateEnv } from "./config/env"
+import "dotenv/config";
+import app from "./app";
+import { prisma } from "./config/prisma";
+import { validateEnv } from "./config/env";
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 
-async function serverStartKaroBhai() {
-  validateEnv()
+async function bootstrap() {
+  validateEnv();
   try {
     await prisma.$connect();
-    console.log("Database connected guyss")
+    console.log("Database connected");
 
     app.listen(PORT, () => {
-      console.log(`Server start ho chuka hai ye address par: http:localhost:${PORT}`);
-      console.log(`Aap abhi iss environment mein server run kar rahe hoo: ${process.env.NODE_ENV || "development"}`)
+      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`ENV: ${process.env.NODE_ENV || "development"}`);
     });
   } catch (err) {
-    console.error("Kuch toh matter ho gaya bhai, ye dekho error:", err)
-    console.info("Tab tak main database se disconnect karke server band kar raha hoon, tataaaaaaaaaa")
+    console.error("Failed to start server:", err);
     await prisma.$disconnect();
-    process.exit(1)
+    process.exit(1);
   }
 }
 
-serverStartKaroBhai()
+bootstrap();
 
-// ijjat se band karna
+// Graceful shutdown
 process.on("SIGTERM", async () => {
-  console.log("SIGTERM mil chuka hai - pyaar se server band karenge ab")
-  await prisma.$disconnect()
-  process.exit(0)
-})
+  console.log("SIGTERM received — shutting down gracefully");
+  await prisma.$disconnect();
+  process.exit(0);
+});
