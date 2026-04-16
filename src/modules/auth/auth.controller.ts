@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { type } from "arktype";
-import { LoginSchema, RegisterSchema } from "./auth.schema";
-import { sendSuccess } from "../../shared/utils/response";
 import { authService } from "./auth.service";
+import { RegisterSchema, LoginSchema } from "./auth.schema";
+import { sendSuccess } from "../../shared/utils/response";
 
 export const authController = {
   async register(
@@ -16,14 +16,13 @@ export const authController = {
       if (validation instanceof type.errors) {
         res.status(400).json({
           success: false,
-          message: "Validation Failed",
+          message: "Validation failed",
           errors: validation.summary,
         });
         return;
       }
 
       const result = await authService.register(validation);
-
       sendSuccess(res, result, "Registration successful", 201);
     } catch (err) {
       next(err);

@@ -4,17 +4,19 @@ import { signToken } from "../../shared/utils/jwt";
 import { createError } from "../../shared/middleware/error.middleware";
 import { RegisterInput, LoginInput } from "./auth.schema";
 
+const BCRYPT_ROUNDS = 12;
+
 export const authService = {
   async register(input: RegisterInput) {
     const existing = await prisma.user.findUnique({
-      where: {
-        email: input.email,
-      },
+      where: { email: input.email },
     });
 
-    if (existing) throw createError("Email already registered hai bhai", 400);
+    if (existing) {
+      throw createError("Email already registered", 400);
+    }
 
-    const passwordHash = await bcrypt.hash(input.password, 12);
+    const passwordHash = await bcrypt.hash(input.password, BCRYPT_ROUNDS);
 
     const user = await prisma.user.create({
       data: {
@@ -30,10 +32,7 @@ export const authService = {
       },
     });
 
-    const token = signToken({
-      userId: user.id,
-      email: user.email,
-    });
+    const token = signToken({ userId: user.id, email: user.email });
 
     return { user, token };
   },
