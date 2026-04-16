@@ -1,6 +1,6 @@
 # Expense Splitter API
 
-A expense splitting API (yet to be)built with a NestJS-inspired modular architecture. Split bills fairly among groups using multiple strategies (equal, percentage, or exact amounts), track balances, and settle debts with confirmation workflows.
+A fully-featured expense splitting API built with a NestJS-inspired modular architecture. Split bills fairly among groups using multiple strategies (equal, percentage, or exact amounts), track balances, and settle debts with confirmation workflows.
 
 ## Quick Start
 
@@ -12,7 +12,7 @@ bun install
 cp .env.example .env
 # Edit .env with your DATABASE_URL and JWT_SECRET
 
-# Run migrationss
+# Run migrations
 bun run db:migrate
 
 # Start server
@@ -37,20 +37,17 @@ Server runs at `http://localhost:3000`
 | --------------- | -------------------- | ------------------------------------ |
 | Runtime         | Node.js + TypeScript | Type-safe JavaScript execution       |
 | Framework       | Express.js           | Minimalist web framework             |
-| Validation      | ArkType 2.0          | Runtime type validation              |
-| ORM             | Prisma 6.x           | Type-safe database client            |
+| Validation      | ArkType              | Runtime type validation              |
+| ORM             | Prisma               | Type-safe database client            |
 | Database        | PostgreSQL           | Relational data with ACID guarantees |
 | Auth            | JWT + bcryptjs       | Stateless authentication             |
 | Package Manager | Bun                  | Fast dependency management           |
 
 ## Documentation
 
-| Document                                 | Description                                   |
-| ---------------------------------------- | --------------------------------------------- |
-| **[Setup Guide](docs/SETUP.md)**         | Installation, configuration, and deployment   |
-| **[API Reference](docs/API.md)**         | Complete endpoint documentation with examples |
-| **[Database Design](docs/DATABASE.md)**  | Schema diagram and entity relationships       |
-| **[Architecture](docs/ARCHITECTURE.md)** | Design decisions and tradeoffs                |
+| Document                                 | Description                    |
+| ---------------------------------------- | ------------------------------ |
+| **[Architecture](docs/Architecture.md)** | Design decisions and tradeoffs |
 
 ## Project Structure
 
@@ -81,7 +78,7 @@ src/
 │   │   ├── expense.controller.ts
 │   │   └── expense.routes.ts
 │   ├── splits/
-│   │   └── splits.util.ts     # Pure split calculation functions
+│   │   └── splits.utils.ts    # Pure split calculation functions
 │   └── settlements/
 │       ├── settlement.schema.ts # CreateSettlementSchema
 │       ├── settlement.service.ts # Payment recording logic
@@ -93,7 +90,8 @@ src/
 │   │   └── error.middleware.ts # Global error handler
 │   ├── utils/
 │   │   ├── response.ts         # Standardized API responses
-│   │   └── jwt.ts              # Token sign/verify helpers
+│   │   ├── jwt.ts              # Token sign/verify helpers
+│   │   └── sanitize.ts         # Input sanitization for XSS prevention
 │   └── types/
 │       └── index.ts            # Shared TypeScript types
 ├── app.ts                      # Express app + route registration
@@ -111,28 +109,26 @@ src/
 **Balances** → Calculate who owes whom
 **Settlements** → Record payments with confirmation
 
-See **[API Reference](docs/API.md)** for complete endpoint documentation with examples.
-
 ## Usage Example
 
 ```bash
 # 1. Register
-curl -X POST http://localhost:3000/api/auth/register \
+curl -X POST http://localhost:3000/api/v1/auth/register \
   -H "Content-Type: application/json" \
   -d '{"name":"John","email":"john@example.com","password":"password123"}'
 
 # 2. Create group (with token from registration)
-curl -X POST http://localhost:3000/api/groups \
+curl -X POST http://localhost:3000/api/v1/groups \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{"name":"Weekend Trip"}'
 
 # 3. Add expense with equal split
-curl -X POST http://localhost:3000/api/groups/GROUP_ID/expenses \
+curl -X POST http://localhost:3000/api/v1/groups/GROUP_ID/expenses \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{"title":"Dinner","totalAmount":900,"paidById":"USER_ID","split":{"type":"EQUAL"}}'
 
 # 4. Check balances
-curl http://localhost:3000/api/groups/GROUP_ID/balances \
+curl http://localhost:3000/api/v1/groups/GROUP_ID/balances \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 
@@ -142,12 +138,12 @@ curl http://localhost:3000/api/groups/GROUP_ID/balances \
 
 ### Scenario 1: Trip with 3 Friends
 
-1. Create group: `POST /api/groups` → `{ name: "Goa Trip" }`
-2. Add friends: `POST /api/groups/:id/members` (x2)
-3. Add hotel expense: `POST /api/groups/:id/expenses` (PERCENTAGE: 40/30/30)
-4. Add food expense: `POST /api/groups/:id/expenses` (EQUAL split)
-5. Check balances: `GET /api/groups/:id/balances`
-6. Settle up: `POST /api/settlements` → `PATCH /api/settlements/:id/confirm`
+1. Create group: `POST /api/v1/groups` → `{ name: "Goa Trip" }`
+2. Add friends: `POST /api/v1/groups/:id/members` (x2)
+3. Add hotel expense: `POST /api/v1/groups/:id/expenses` (PERCENTAGE: 40/30/30)
+4. Add food expense: `POST /api/v1/groups/:id/expenses` (EQUAL split)
+5. Check balances: `GET /api/v1/groups/:id/balances`
+6. Settle up: `POST /api/v1/settlements` → `PATCH /api/v1/settlements/:id/confirm`
 
 ### Scenario 2: Roommates with Recurring Expenses
 
@@ -161,7 +157,7 @@ curl http://localhost:3000/api/groups/GROUP_ID/balances \
 
 ## Testing
 
-All 19 endpoints have been manually tested. See [SETUP.md](docs/SETUP.md) for test commands and examples.
+All endpoints have been manually tested with curl commands. Use the examples above as a starting point for testing your own deployment.
 
 ## Future Enhancements
 
