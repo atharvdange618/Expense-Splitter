@@ -62,6 +62,7 @@ model Expense {
   splitInput  Json
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 
   paidById String
   groupId  String
